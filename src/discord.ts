@@ -1,8 +1,8 @@
-import { basicObject, basicObjectStringable, embedObject, LangObj } from '../types';
-import { convertBasicObject, template } from '../util';
-import { embedDataType } from './types';
-import { embedObjEmbed } from './util';
-import Lang, { getLang } from '..';
+import { basicObject, basicObjectStringable, embedObject, LangObj } from './types';
+import { convertBasicObject, template } from './util';
+import { embedDataType } from './discord/types';
+import { embedObjEmbed } from './discord/util';
+import Lang, { getLang } from '.';
 
 /**
  * reads language json as an object (could be embed or just string)
@@ -57,9 +57,9 @@ function getEmbed(id: string, argsraw: basicObjectStringable = {}, otherOptions:
     return embedData;
 }
 
-export * from './types';
-export * from './util';
-export * from '..';
+export * from './discord/types';
+export * from './discord/util';
+export * from '.';
 
 export default {
     ...Lang,
