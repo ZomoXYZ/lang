@@ -7,5 +7,3 @@ export interface embedDataType {
     content?: string,
     embeds: MessageEmbed[]
 }
-
-export * from '../types';

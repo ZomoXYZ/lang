@@ -6,8 +6,7 @@
     "types": "lib/index.d.ts",
     "devDependencies": {},
     "scripts": {
-        "build": "tsc",
-		"prepare": "npm run build"
+        "build": "tsc && cd discord && tsc && cd .."
     },
     "repository": {
         "type": "git",

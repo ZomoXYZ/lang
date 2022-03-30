@@ -1,6 +1,6 @@
 import { MessageEmbed } from 'discord.js';
-import { template, resolveColor, bigString } from '../util';
-import { embedObject, basicObjectString, authorData, footerData } from '../types';
+import { template, resolveColor, bigString } from '../../src/util';
+import { embedObject, basicObjectString, authorData, footerData } from '../../src/types';
 
 /**
  * converts embedObj to Discord.MessageEmbed
@@ -95,5 +95,3 @@ export function embedObjEmbed(embedObj: embedObject, args: basicObjectString = {
 
     return embed;
 }
-
-export * from '../util';
