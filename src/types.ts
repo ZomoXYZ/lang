@@ -1,5 +1,3 @@
-
-
 /**
  * any indexable object
  */
@@ -90,10 +88,3 @@ export interface embedObject {
  * `LANG > Language`
  */
 export type LangObj = { [keys:string]: LangObj | embedObject | string }
-
-/**
- * the entire LANG object
- * 
- * `LANG`
- */
-export type LangObjWhole = { [langid:string]: LangObj }

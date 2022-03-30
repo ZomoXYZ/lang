@@ -1,76 +1,56 @@
+import { basicObjectStringable, embedObject, LangObj } from './types';
+import { convertBasicObject, embedObjStr, template } from './util';
 
-import { authorData, basicObject, basicObjectString, bigStringType, embedObject, footerData } from './types';
+/* MAIN */
+var LANG: LangObj = {};
 
-/**
- * 
- * @param str 
- * @param args 
- * @returns 
- */
-export function template(str: string, args: basicObject): string {
+export function setLang(lang: LangObj) {
+    LANG = lang;
+}
 
-    return str.replace(/{\w+}/g, str => {
-
-        const key = str.substring(1, str.length-1);
-
-        if (key in args)
-            return args[key];
-
-        return key;
-
-    });
-
+export function getLang(): LangObj {
+    return LANG;
 }
 
 /**
- * converts bigString to string
+ * reads language json (just strings)
+ * @param id ex: discord.error.noActiveQueue
+ * @param argsraw list of key/value pairs to represent template values
+ * @returns language value, defaults to `id` parameter
  */
-export function bigString(bigStr: bigStringType): string {
-    if (Array.isArray(bigStr))
-        return bigStr.join('\n');
-    return bigStr;
-}
+function get(id: string, argsraw: basicObjectStringable = {}): string {
 
+    const args = convertBasicObject(argsraw),
+        keySpl = id.split('.').map(k => k.trim()).filter(k => k);
 
-/**
- * converts Hex Color string to an RGB array
- */
-export function resolveColor(color: string): [number, number, number] {
-    color = color.replace(/[^0-9a-f]/gi, '');
+    let finding = LANG;
 
-    const colorNum: [number, number, number] = [0, 0, 0];
+    for (const key of keySpl) {
 
-    if (color.length === 3 || color.length === 6) {
+        if (key in finding) {
 
-        const colorSplRaw = /([0-9a-f]{1,2})([0-9a-f]{1,2})([0-9a-f]{1,2})/.exec(color);
+            const found = finding[key];
 
-        if (!colorSplRaw)
-            return colorNum;
+            if (typeof found === 'string')
+                return template(found, args);
 
-        const colorSpl = colorSplRaw.slice(1, 4);
+            if (found.embed === true)
+                return embedObjStr(found as embedObject, args, id);
+                
+            finding = found as LangObj;
 
-        if (color.length === 3)
-            colorSpl.map(c => c + c);
-
-        for (let i = 0; i < colorSpl.length && i < colorNum.length; i++)
-            colorNum[i] = parseInt(colorSpl[i], 16);
-
+        } else
+            break;
+        
     }
 
-    return colorNum;
+    return id;
 }
 
-/**
- * converts embedObj to a string if applicable
- * @param fallback the string to use if no valid strings can be found
- */
-export function embedObjStr(embedObj: embedObject, args: basicObjectString = {}, fallback = ''): string {
+export default {
+    setLang,
+    get
+};
 
-    if (embedObj.content !== undefined)
-        return template(bigString(embedObj.content), args);
-
-    if (embedObj.description !== undefined)
-        return template(bigString(embedObj.description), args);
-
-    return fallback;
-}
+export * from './types';
+export * from './util';
