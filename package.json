@@ -1,18 +1,17 @@
 {
-    "name": "discordslash",
+    "name": "lang",
     "description": "",
     "version": "1.0.0",
-    "main": "lib/main.js",
-    "types": "lib/main.d.ts",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
     "devDependencies": {},
     "scripts": {
         "build": "tsc",
-        "buildexamples": "node buildexample.js",
-		"_prepare": "npm run build"
+		"prepare": "npm run build"
     },
     "repository": {
         "type": "git",
-        "url": "git@git.zomo.dev:zomo/discordslash.git"
+        "url": "git@git.zomo.dev:zomo/lang.git"
     },
     "author": "ashley zomo",
     "license": "ISC",
