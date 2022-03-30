@@ -1,5 +1,5 @@
 import { MessageEmbed } from 'discord.js';
-import { embedObject, basicObjectString } from '../../src/types';
+import { basicObjectString, embedObject } from '../..';
 /**
  * converts embedObj to Discord.MessageEmbed
  */
