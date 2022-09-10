@@ -7,17 +7,17 @@ const __1 = require("../..");
  * converts embedObj to Discord.MessageEmbed
  */
 function embedObjEmbed(embedObj, args = {}) {
-    const embed = new discord_js_1.MessageEmbed(), { author, color, description, fields, footer, image, thumbnail, timestamp, title, url } = embedObj;
+    const embed = new discord_js_1.EmbedBuilder(), { author, color, description, fields, footer, image, thumbnail, timestamp, title, url, } = embedObj;
     if (author !== undefined) {
         let authorFix;
         if (typeof author === 'string')
             authorFix = {
-                name: (0, __1.template)(author, args)
+                name: (0, __1.template)(author, args),
             };
         else {
             const { name, iconURL, url } = author;
             authorFix = {
-                name: (0, __1.template)(name, args)
+                name: (0, __1.template)(name, args),
             };
             if (iconURL !== undefined)
                 authorFix.iconURL = (0, __1.template)(iconURL, args);
@@ -30,13 +30,13 @@ function embedObjEmbed(embedObj, args = {}) {
         let footerFix;
         if (typeof footer === 'string') {
             footerFix = {
-                text: (0, __1.template)(footer, args)
+                text: (0, __1.template)(footer, args),
             };
         }
         else {
             const { text, iconURL } = footer;
             footerFix = {
-                text: (0, __1.template)(text, args)
+                text: (0, __1.template)(text, args),
             };
             if (iconURL !== undefined)
                 footerFix.iconURL = (0, __1.template)(iconURL, args);
@@ -61,9 +61,13 @@ function embedObjEmbed(embedObj, args = {}) {
         embed.setTimestamp(new Date((0, __1.template)(timestamp, args)));
     else if (timestamp !== false)
         embed.setTimestamp(timestamp);
-    fields === null || fields === void 0 ? void 0 : fields.forEach(field => {
-        embed.addField((0, __1.template)(field.name, args), (0, __1.template)((0, __1.bigString)(field.value), args), field.inline);
-    });
+    if (fields !== undefined) {
+        embed.addFields(fields.map((field) => ({
+            name: (0, __1.template)(field.name, args),
+            value: (0, __1.template)((0, __1.bigString)(field.value), args),
+            inline: field.inline,
+        })));
+    }
     return embed;
 }
 exports.embedObjEmbed = embedObjEmbed;
